@@ -1,0 +1,420 @@
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  z-index: 10000;
+  overflow-y: auto;
+}
+
+.admin-page-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background: #0d0d0d;
+}
+
+.admin-panel {
+  background: #1a1a1a;
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid #333;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-panel-page {
+  max-width: 1000px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: #0d0d0d;
+  color: #e0e0e0;
+  border-bottom: 1px solid #333;
+}
+
+.admin-header h1 {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.admin-close {
+  background: transparent;
+  border: 1px solid #444;
+  color: #888;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: all 0.2s;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  border-radius: 4px;
+}
+
+.admin-panel-page .admin-close {
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  padding: 8px 16px;
+  border: 1px solid #444;
+}
+
+.admin-close:hover {
+  color: #fff;
+  border-color: #666;
+  background: #2a2a2a;
+}
+
+.admin-message {
+  padding: 12px 20px;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.85rem;
+}
+
+.admin-message.success {
+  background: #1a2f1a;
+  color: #4ade80;
+  border-bottom: 1px solid #2d4a2d;
+}
+
+.admin-message.error {
+  background: #2f1a1a;
+  color: #f87171;
+  border-bottom: 1px solid #4a2d2d;
+}
+
+.admin-loading {
+  padding: 50px;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  color: #888;
+}
+
+/* Login Form */
+.admin-login {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.admin-login h2 {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  margin-bottom: 30px;
+  color: #e0e0e0;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.admin-login input {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 15px;
+  padding: 14px 16px;
+  border: 1px solid #333;
+  background: #0d0d0d;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.admin-login input:focus {
+  outline: none;
+  border-color: #4f8cff;
+}
+
+.admin-login input::placeholder {
+  color: #555;
+}
+
+.admin-login button {
+  background: #4f8cff;
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.admin-login button:hover {
+  background: #3d7ae8;
+}
+
+.admin-login button:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.admin-hint {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #555;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Tabs */
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  background: #0d0d0d;
+  border-bottom: 1px solid #333;
+}
+
+.admin-tabs button {
+  flex: 1;
+  padding: 14px 10px;
+  border: none;
+  background: transparent;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #888;
+  border-bottom: 2px solid transparent;
+}
+
+.admin-tabs button:hover {
+  color: #e0e0e0;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-tabs button.active {
+  background: #1a1a1a;
+  color: #4f8cff;
+  border-bottom-color: #4f8cff;
+}
+
+.admin-tabs .logout-btn {
+  color: #f87171;
+  flex: none;
+  padding: 14px 25px;
+}
+
+.admin-tabs .logout-btn:hover {
+  background: #2f1a1a;
+  color: #f87171;
+}
+
+/* Content */
+.admin-content {
+  padding: 30px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.admin-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-content::-webkit-scrollbar-track {
+  background: #0d0d0d;
+}
+
+.admin-content::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+.admin-section h2 {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  margin-bottom: 25px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.admin-section h3 {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  margin: 25px 0 15px;
+  font-size: 0.9rem;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.admin-section label {
+  display: block;
+  margin-bottom: 20px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-section input,
+.admin-section textarea {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid #333;
+  background: #0d0d0d;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  transition: border-color 0.2s;
+  border-radius: 4px;
+}
+
+.admin-section input:focus,
+.admin-section textarea:focus {
+  outline: none;
+  border-color: #4f8cff;
+}
+
+.admin-section input::placeholder,
+.admin-section textarea::placeholder {
+  color: #444;
+}
+
+.admin-section textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+/* Buttons */
+.save-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #4f8cff;
+  color: #fff;
+  border: none;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 25px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.save-btn:hover {
+  background: #3d7ae8;
+}
+
+.save-btn:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.add-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.2s;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.add-btn:hover {
+  background: #16a34a;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+  filter: grayscale(0.5);
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+  filter: grayscale(0);
+}
+
+/* Project Items */
+.project-item {
+  background: #0d0d0d;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #333;
+  border-radius: 6px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 500;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+/* URL Toggle Checkboxes */
+.url-toggles label {
+  cursor: pointer;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.url-toggles input[type="checkbox"] {
+  accent-color: #4f8cff;
+}
+
+.url-toggles input[type="text"] {
+  width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .admin-panel {
+    margin: 10px;
+    border-radius: 6px;
+  }
+  
+  .admin-content {
+    padding: 20px;
+  }
+  
+  .admin-tabs button {
+    font-size: 0.7rem;
+    padding: 12px 8px;
+  }
+}

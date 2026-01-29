@@ -1,0 +1,869 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap');
+
+:root {
+  /* News Tower inspired palette - 1930s newspaper aesthetic */
+  --paper-bg: #f4f1ea;
+  --paper-aged: #ebe6d9;
+  --paper-cream: #faf8f3;
+  --ink-dark: #2d2926;
+  --ink-faded: #5c5552;
+  --border-dark: #3d3835;
+  --accent-warm: #9c7e5c;
+  --accent-muted: #7a6b5a;
+  --sepia-overlay: rgba(156, 126, 92, 0.05);
+  --bg-warm: #e8e4db;
+  --bg-neutral: #d9d5cc;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  font-family: 'IM Fell English', serif;
+  background: var(--bg-warm);
+  color: var(--ink-dark);
+  overflow-x: hidden;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  perspective: 2000px;
+  background: linear-gradient(180deg, var(--bg-neutral) 0%, var(--bg-warm) 100%);
+}
+
+/* Newspaper grain overlay */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-warm);
+  z-index: 1000;
+}
+
+.loading-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 3rem;
+  color: var(--ink-dark);
+  margin-bottom: 30px;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--border-dark);
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 20px;
+  font-family: 'Special Elite', cursive;
+  color: var(--ink-faded);
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+/* Newspaper Container */
+.newspaper {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--paper-cream);
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.08),
+    0 4px 12px rgba(0,0,0,0.06),
+    0 8px 30px rgba(0,0,0,0.04);
+  border: 1px solid var(--bg-neutral);
+}
+
+.newspaper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.02) 2px,
+      rgba(0,0,0,0.02) 4px
+    );
+  pointer-events: none;
+}
+
+/* Paper texture */
+.newspaper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.9 0 0 0 0 0.85 0 0 0 0 0.75 0 0 0 0.3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.newspaper-content {
+  position: relative;
+  z-index: 1;
+  padding: 30px 40px;
+}
+
+/* Header Styles */
+.newspaper-header {
+  text-align: center;
+  border-bottom: 4px double var(--border-dark);
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.8rem;
+  color: var(--ink-faded);
+  margin-bottom: 10px;
+}
+
+.newspaper-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 4rem;
+  color: var(--ink-dark);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  margin: 10px 0;
+  letter-spacing: 2px;
+}
+
+.newspaper-subtitle {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink-faded);
+  margin-bottom: 10px;
+}
+
+.header-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+}
+
+.header-line span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Breaking News Banner */
+.breaking-news {
+  background: var(--ink-dark);
+  color: var(--paper-bg);
+  padding: 12px 20px;
+  margin: 20px -40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  overflow: hidden;
+}
+
+.breaking-label {
+  background: #cc0000;
+  color: white;
+  padding: 5px 15px;
+  font-family: 'Special Elite', cursive;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.breaking-text {
+  font-family: 'Special Elite', cursive;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Main Content Grid */
+.main-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-top: 25px;
+}
+
+/* Article Styles */
+.article {
+  position: relative;
+}
+
+.article-featured {
+  border-right: 1px solid var(--border-dark);
+  padding-right: 30px;
+}
+
+.article-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  color: var(--ink-dark);
+}
+
+.article-subheadline {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink-faded);
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--ink-faded);
+}
+
+.article-meta {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  color: var(--accent-warm);
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.article-image-container {
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 2px solid var(--border-dark);
+}
+
+.article-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  filter: sepia(30%) contrast(1.1);
+  transition: transform 0.5s ease;
+}
+
+.article-image:hover {
+  transform: scale(1.05);
+}
+
+.image-caption {
+  background: var(--ink-dark);
+  color: var(--paper-bg);
+  padding: 8px 12px;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.article-body {
+  column-count: 2;
+  column-gap: 25px;
+  column-rule: 1px solid var(--ink-faded);
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.article-body p {
+  margin-bottom: 15px;
+  text-indent: 1.5em;
+}
+
+.article-body p:first-child {
+  text-indent: 0;
+}
+
+.article-body p:first-child::first-letter {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 4rem;
+  float: left;
+  line-height: 0.8;
+  padding-right: 10px;
+  padding-top: 5px;
+  color: var(--ink-dark);
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.sidebar-section {
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border-dark);
+}
+
+.sidebar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ink-faded);
+}
+
+.news-item {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--ink-faded);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-item:hover {
+  background: rgba(0,0,0,0.03);
+  padding-left: 10px;
+}
+
+.news-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.news-item-excerpt {
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  line-height: 1.5;
+}
+
+.news-item-date {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.7rem;
+  color: var(--accent-warm);
+  margin-top: 5px;
+}
+
+/* About Section */
+.about-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 4px double var(--border-dark);
+}
+
+.about-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 30px;
+}
+
+.about-portrait {
+  position: relative;
+}
+
+.portrait-frame {
+  border: 3px solid var(--border-dark);
+  padding: 10px;
+  background: var(--paper-aged);
+}
+
+.portrait-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  filter: sepia(50%) contrast(1.1);
+}
+
+.about-bio {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.about-bio p {
+  margin-bottom: 15px;
+  text-indent: 1.5em;
+}
+
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 15px;
+  background: var(--paper-aged);
+  border: 1px solid var(--border-dark);
+}
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.stat-label {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Skills Section */
+.skills-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 2px solid var(--border-dark);
+}
+
+.skills-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.skill-item {
+  text-align: center;
+  padding: 20px 15px;
+  background: var(--paper-aged);
+  border: 1px solid var(--border-dark);
+  transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.skill-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.skill-name {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.85rem;
+}
+
+/* Projects Section */
+.projects-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 4px double var(--border-dark);
+}
+
+.projects-title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.project-card {
+  border: 2px solid var(--border-dark);
+  background: var(--paper-aged);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.project-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  filter: sepia(30%);
+  transition: filter 0.3s ease;
+}
+
+.project-card:hover .project-image {
+  filter: sepia(0%);
+}
+
+.project-info {
+  padding: 15px;
+}
+
+.project-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.project-description {
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.project-tag {
+  background: var(--ink-dark);
+  color: var(--paper-bg);
+  padding: 3px 8px;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+/* Footer */
+.newspaper-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 4px double var(--border-dark);
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--ink-faded);
+}
+
+.footer-links {
+  display: flex;
+  gap: 30px;
+}
+
+.footer-link {
+  font-family: 'Special Elite', cursive;
+  font-size: 0.85rem;
+  color: var(--ink-dark);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-warm);
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.social-link {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-dark);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  background: var(--ink-dark);
+  color: var(--paper-bg);
+}
+
+.footer-bottom {
+  padding: 15px 0;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+}
+
+/* Animated Elements - Magical Newspaper Effect */
+.animated-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Floating particles */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-warm);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Video placeholder for "moving photos" */
+.video-container {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--border-dark);
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(20%) contrast(1.1);
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(139, 115, 85, 0.1);
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .article-featured {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 2px solid var(--border-dark);
+    padding-bottom: 25px;
+  }
+  
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .newspaper-title {
+    font-size: 2.5rem;
+  }
+  
+  .article-headline {
+    font-size: 1.6rem;
+  }
+  
+  .article-body {
+    column-count: 1;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .newspaper-content {
+    padding: 20px;
+  }
+  
+  .breaking-news {
+    margin: 20px -20px;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Ink splash effect on click */
+.ink-splash {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--ink-dark);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: splash 0.6s ease-out forwards;
+}
+
+@keyframes splash {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+
+/* Quill cursor effect */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+}
+
+/* Page fold effect */
+.page-fold {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, transparent 50%, var(--paper-aged) 50%);
+  box-shadow: -2px -2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-fold:hover {
+  width: 80px;
+  height: 80px;
+}
+
+/* Typewriter effect */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(40, end);
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Newspaper crinkle effect on hover */
+.crinkle-effect:hover {
+  animation: crinkle 0.3s ease;
+}
+
+@keyframes crinkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.01) rotate(0.5deg); }
+  75% { transform: scale(0.99) rotate(-0.5deg); }
+}
