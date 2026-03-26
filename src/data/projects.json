@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Dota 2 Ant Colony Optimization",
+    "description": "Machine learning model using ant colony optimization algorithms to predict Dota 2 match outcomes with 78% accuracy.",
+    "image": "/projects/dota2-aco.png",
+    "link": "https://github.com/justinsalim/dota2-aco"
+  },
+  {
+    "id": 2,
+    "title": "React/Go Web App",
+    "description": "Full-stack web application with React frontend and Go backend, featuring real-time updates and JWT authentication.",
+    "image": "/projects/react-go-app.png",
+    "link": "https://github.com/justinsalim/react-go-app"
+  },
+  {
+    "id": 3,
+    "title": "DevOps Pipeline Automation",
+    "description": "Complete CI/CD pipeline using GitHub Actions, Docker, and AWS ECS for automated testing and deployment.",
+    "image": "/projects/devops-pipeline.png",
+    "link": "https://github.com/justinsalim/devops-pipeline"
+  },
+  {
+    "id": 4,
+    "title": "Rust Systems Tool",
+    "description": "High-performance command-line tool written in Rust for processing large datasets with minimal memory footprint.",
+    "image": "/projects/rust-tool.png",
+    "link": "https://github.com/justinsalim/rust-tool"
+  }
+]
