@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import projectsData from '../data/projects.json';
+import { supabase } from '../lib/supabase-client';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setProjects(projectsData);
+    supabase
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (error) {
+          console.error('Error fetching projects:', error);
+          setError(error.message);
+        } else {
+          setProjects(data || []);
+        }
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) return <div className="h-screen p-6">Loading...</div>;
+  if (error) return <div className="h-screen p-6">Error: {error}</div>;
 
   return (
     <div className="h-screen overflow-y-auto p-6">
@@ -31,7 +48,7 @@ const Projects = () => {
               {project.title}
             </h3>
             
-            <p className="text-xs mb-2" style={{ color: '#404040' }}>
+            <p className="text-xs mb-2" style={{ color: '#a0a0a0' }}>
               {project.description}
             </p>
             
