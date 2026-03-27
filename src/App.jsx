@@ -1,8 +1,6 @@
-import React from 'react';
 import Identity from './components/Identity';
 import Feed from './components/Feed';
 import Projects from './components/Projects';
-import './App.css';
 
 function App() {
   return (

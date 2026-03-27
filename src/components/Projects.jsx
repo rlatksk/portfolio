@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase-client';
+import React, { useState, useEffect, useRef } from 'react';
+import { supabase } from '../lib/supabase-client.js';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const projectRefs = useRef([]);
+  const [visibleProjects, setVisibleProjects] = useState(new Set());
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     supabase
@@ -22,22 +25,65 @@ const Projects = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (projects.length > 0 && !initialized) {
+      // Delay initialization to trigger animation on page load
+      const timer = setTimeout(() => {
+        setVisibleProjects(new Set(projects.map((_, i) => i)));
+        setInitialized(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [projects, initialized]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const index = parseInt(entry.target.dataset.index);
+          if (entry.isIntersecting) {
+            setVisibleProjects((prev) => new Set([...prev, index]));
+          } else {
+            setVisibleProjects((prev) => {
+              const next = new Set(prev);
+              next.delete(index);
+              return next;
+            });
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '100px 0px -100px 0px' }
+    );
+
+    projectRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [projects]);
+
   if (loading) return <div className="h-screen p-6">Loading...</div>;
   if (error) return <div className="h-screen p-6">Error: {error}</div>;
 
   return (
     <div className="h-screen overflow-y-auto p-6">
       <div className="space-y-6">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <article
             key={project.id}
-            className="group"
+            ref={(el) => (projectRefs.current[index] = el)}
+            data-index={index}
+            style={{
+              opacity: visibleProjects.has(index) ? 1 : 0,
+              transform: visibleProjects.has(index) ? 'translateX(0)' : 'translateX(-30px)',
+              transition: `opacity 0.4s ease, transform 0.4s ease`,
+            }}
           >
             <div className="aspect-video rounded-lg overflow-hidden mb-3" style={{ background: '#404040' }}>
               <img
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
@@ -56,10 +102,8 @@ const Projects = () => {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-xs transition-colors duration-200"
+              className="inline-flex items-center py-1 px-2 rounded text-xs transition-all duration-300 link-fill"
               style={{ color: '#404040' }}
-              onMouseEnter={(e) => e.target.style.color = '#ffffff'}
-              onMouseLeave={(e) => e.target.style.color = '#404040'}
             >
               View Project
               <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
