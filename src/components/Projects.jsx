@@ -90,7 +90,7 @@ const Projects = () => {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center py-1 px-2 rounded text-xs transition-all duration-300 link-fill"
+              className="inline-flex items-center py-1 rounded text-xs transition-all duration-300 link-fill"
               style={{ color: '#404040' }}
             >
               View Project

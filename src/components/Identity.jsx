@@ -20,7 +20,7 @@ const Identity = () => {
       </div>
 
       <div>
-        <p className="text-base" style={{ color: "#404040", marginBottom: "9px" }}>
+        <p className="text-base" style={{ color: "#a0a0a0", marginBottom: "9px" }}>
           Connect with me:
         </p>
         <div className="space-y-3">
@@ -28,8 +28,8 @@ const Identity = () => {
             href="https://github.com/rlatksk"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-l flex items-center py-2 pl-3 rounded transition-all duration-300 link-fill"
-            style={{ color: "#ffffff" }}
+            className="text-l flex items-center py-2 rounded transition-all duration-200 link-fill"
+            style={{ color: "#a0a0a0" }}
           >
             <svg
               className="w-4 h-4 mr-3"
@@ -45,8 +45,8 @@ const Identity = () => {
             href="https://linkedin.com/in/justinsalim73"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-l flex items-center py-2 pl-3 rounded transition-all duration-300 link-fill"
-            style={{ color: "#ffffff" }}
+            className="text-l flex items-center py-2 rounded transition-all duration-200 link-fill"
+            style={{ color: "#a0a0a0" }}
           >
             <svg
               className="w-4 h-4 mr-3"
@@ -60,8 +60,8 @@ const Identity = () => {
 
           <a
             href="mailto:justinsalim73@gmail.com"
-            className="text-l flex items-center py-2 pl-3 rounded transition-all duration-300 link-fill"
-            style={{ color: "#ffffff" }}
+            className="text-l flex items-center py-2 rounded transition-all duration-200 link-fill"
+            style={{ color: "#a0a0a0" }}
           >
             <svg
               className="w-4 h-4 mr-3"

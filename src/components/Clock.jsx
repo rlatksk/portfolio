@@ -17,9 +17,16 @@ const Clock = () => {
   const minutes = String(wibTime.getUTCMinutes()).padStart(2, '0');
   const seconds = String(wibTime.getUTCSeconds()).padStart(2, '0');
 
+  // Format date: e.g., "Sat, 28 Mar"
+  const dayAbbrev = wibTime.toLocaleDateString('en-US', { weekday: 'short' });
+  const day = String(wibTime.getUTCDate()).padStart(2, '0');
+  const monthAbbrev = wibTime.toLocaleDateString('en-US', { month: 'short' });
+  const dateStr = `${dayAbbrev}, ${day} ${monthAbbrev}`;
+
   return (
-    <div className="text-xl font-bold tracking-wider" style={{ color: '#ffffff' }}>
-      <span>{hours}:{minutes}:{seconds}</span>
+    <div className="flex flex-col" style={{ color: '#a0a0a0' }}>
+      <span className="text-sm font-bold tracking-wider mb-1">{dateStr}</span>
+      <span className="text-xl font-bold tracking-wider">{hours}:{minutes}:{seconds}</span>
     </div>
   );
 };
