@@ -7,7 +7,6 @@ const Projects = () => {
   const [error, setError] = useState(null);
   const projectRefs = useRef([]);
   const [visibleProjects, setVisibleProjects] = useState(new Set());
-  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     supabase
@@ -26,17 +25,6 @@ const Projects = () => {
   }, []);
 
   useEffect(() => {
-    if (projects.length > 0 && !initialized) {
-      // Delay initialization to trigger animation on page load
-      const timer = setTimeout(() => {
-        setVisibleProjects(new Set(projects.map((_, i) => i)));
-        setInitialized(true);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [projects, initialized]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -52,7 +40,7 @@ const Projects = () => {
           }
         });
       },
-      { threshold: 0, rootMargin: '100px 0px -100px 0px' }
+      { threshold: 0.1, rootMargin: '50px 0px' }
     );
 
     projectRefs.current.forEach((ref) => {

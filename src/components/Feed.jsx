@@ -7,7 +7,6 @@ const Feed = () => {
   const [error, setError] = useState(null);
   const postRefs = useRef([]);
   const [visiblePosts, setVisiblePosts] = useState(new Set());
-  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     supabase
@@ -26,17 +25,6 @@ const Feed = () => {
   }, []);
 
   useEffect(() => {
-    if (posts.length > 0 && !initialized) {
-      // Delay initialization to trigger animation on page load
-      const timer = setTimeout(() => {
-        setVisiblePosts(new Set(posts.map((_, i) => i)));
-        setInitialized(true);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [posts, initialized]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -52,7 +40,7 @@ const Feed = () => {
           }
         });
       },
-      { threshold: 0, rootMargin: '100px 0px -100px 0px' }
+      { threshold: 0.1, rootMargin: '50px 0px' }
     );
 
     postRefs.current.forEach((ref) => {
